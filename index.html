@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Consultant's AI Prompting Toolkit: A Dynamic Guide</title>
+    <title>The Consultant's AI Prompting Toolkit: A Dynamic Guide V2</title>
     <style>
         /*
-        * Embedded CSS Styling to Mimic a Clean Jekyll Theme (e.g., Minima)
+        * Embedded CSS Styling to Mimic a Clean Jekyll Theme (V2)
         */
         :root {
-            --color-text: #151515; /* Dark text */
+            --color-text: #151515;
             --color-background: #ffffff;
-            --color-link: #2a7ae2; /* Blue links */
+            --color-link: #2a7ae2; /* Primary Action/Link Blue */
             --color-primary: #0056b3; /* Professional Blue */
             --color-accent: #f6f6f6; /* Light gray for blocks */
+            --color-success: #38a169; /* Green for success messages */
             --border-radius: 4px;
             --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
         }
@@ -22,7 +23,7 @@
             font-family: var(--font-stack);
             margin: 0;
             padding: 20px;
-            background-color: #fcfcfc; /* Very light background */
+            background-color: #fcfcfc;
             color: var(--color-text);
             line-height: 1.6;
         }
@@ -33,7 +34,7 @@
             background-color: var(--color-background);
             padding: 30px;
             border-radius: var(--border-radius);
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05); /* Soft shadow */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
@@ -67,20 +68,28 @@
             gap: 40px;
             margin-top: 20px;
         }
-
-        /* Guide Section Styling */
-        .guide-section {
-            padding-right: 20px;
+        
+        /* Form Grouping and Inputs */
+        .form-group {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: var(--border-radius);
         }
-        .guide-section p {
-            font-size: 0.95rem;
+        
+        .form-group fieldset {
+            border: 1px solid #ddd;
+            padding: 10px;
             margin-bottom: 15px;
-        }
-        .guide-section strong {
-            color: var(--color-primary);
+            border-radius: var(--border-radius);
         }
 
-        /* Generator Styling */
+        .form-group legend {
+            font-weight: bold;
+            color: var(--color-primary);
+            padding: 0 10px;
+        }
+        
         .generator-section label {
             display: block;
             margin-bottom: 8px;
@@ -101,14 +110,7 @@
             color: var(--color-primary);
         }
 
-        .form-group {
-            margin-bottom: 25px;
-            padding: 15px;
-            border: 1px solid #e0e0e0;
-            border-radius: var(--border-radius);
-        }
-
-        select, textarea {
+        select, input[type="text"], textarea {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -118,43 +120,112 @@
             font-size: 1rem;
             font-family: inherit;
         }
-
+        
         textarea {
             min-height: 150px;
             resize: vertical;
         }
-
+        
+        /* Output Area and Controls */
         #promptOutput {
             background-color: #f7f7f7;
             border: 1px solid #c0c0c0;
             min-height: 200px;
             font-family: 'Consolas', 'Menlo', monospace;
             white-space: pre-wrap;
+            margin-bottom: 5px;
+        }
+
+        .output-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 15px;
+        }
+        
+        #charCount {
+            font-size: 0.85rem;
+            color: #666;
         }
 
         .output-controls {
             display: flex;
-            justify-content: flex-end;
-            margin-top: 10px;
+            gap: 10px;
         }
 
         .button {
             background-color: var(--color-link);
             color: white;
-            padding: 10px 20px;
+            padding: 10px 15px;
             border: none;
             border-radius: var(--border-radius);
             cursor: pointer;
             font-weight: 500;
             transition: background-color 0.2s;
         }
+        
+        .button.secondary {
+            background-color: #6c757d;
+        }
 
         .button:hover {
-            background-color: #1964c8; /* Darker blue */
+            background-color: #1964c8;
         }
         
-        /* Disclaimer and Attribution Styles */
+        .button.secondary:hover {
+            background-color: #5a6268;
+        }
+
+        /* Toast Notification (New Feature) */
+        #toastMessage {
+            visibility: hidden;
+            min-width: 250px;
+            background-color: var(--color-success);
+            color: #fff;
+            text-align: center;
+            border-radius: var(--border-radius);
+            padding: 16px;
+            position: fixed;
+            z-index: 1;
+            right: 20px;
+            bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s, bottom 0.5s;
+        }
+
+        #toastMessage.show {
+            visibility: visible;
+            opacity: 1;
+            bottom: 50px;
+        }
+
+        /* Selection Summary (New Change) */
+        #selectionSummary {
+            padding: 15px;
+            margin-bottom: 20px;
+            background-color: #e6f3ff;
+            border: 1px solid var(--color-link);
+            border-radius: var(--border-radius);
+            font-size: 0.95rem;
+            font-weight: 500;
+            color: var(--color-primary);
+        }
+        
+        /* Preset Controls */
+        .preset-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .preset-controls select {
+            flex-grow: 1;
+            width: auto;
+        }
+
+        /* Footer */
         .footer-section {
             margin-top: 40px;
             padding: 20px;
@@ -175,13 +246,7 @@
             font-size: 0.85rem;
             color: #555;
         }
-        
-        .attribution strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 0.95rem;
-        }
-        
+
         /* Responsive Design */
         @media (max-width: 900px) {
             .layout-grid {
@@ -201,29 +266,34 @@
 
     <div class="container">
         <h1>The Consultant's AI Prompting Toolkit: A Dynamic Guide</h1>
-
+        
+        <!-- Preset Controls (New Feature 1) -->
+        <h2>Prompt Preset Library</h2>
+        <div class="preset-controls">
+            <select id="presetSelector" onchange="loadPreset(this.value)">
+                <option value="">-- Load a Saved Prompt Preset --</option>
+            </select>
+            <button class="button secondary" onclick="savePreset()">Save Current</button>
+            <button class="button secondary" onclick="deletePreset()">Delete Selected</button>
+        </div>
+        
         <div class="layout-grid">
             
+            <!-- Educational Guide Section -->
             <div class="guide-section">
-                <h2>The P-O-C-E Framework for Precision Prompting</h2>
-                <p>Use this framework to generate highly focused and effective prompts for any AI model. **Clarity drives better results.**</p>
+                <h2>The P-O-C-E Framework</h2>
+                <p>Define the **Persona (P)**, state the **Objective (O)**, apply **Context (C)**, and provide **Input/Example (E)**.</p>
 
                 <h3>P: Persona/Role</h3>
-                <p>Define the **persona** or **expert role** the AI should adopt. This sets the context, tone, and knowledge base for the response.</p>
-
                 <h3>O: Objective/Task</h3>
-                <p>State the single, clear, and action-oriented **objective** using a strong verb. What do you need the AI to *do*?</p>
-
                 <h3>C: Context/Constraints</h3>
-                <p>Provide all necessary **context, rules, limits, and style instructions**. This is where you include regulatory requirements, word counts, or complexity levels.</p>
-
                 <h3>E: Example/Input</h3>
-                <p>(Optional) Offer **data, background information, or a specific example** the AI must work from. Paste text directly here rather than asking the AI to recall it.</p>
             </div>
 
+            <!-- Interactive Prompt Generator -->
             <div class="generator-section">
-                <h2>Interactive Prompt Generator</h2>
-                <p>Select the options below to build your custom prompt.</p>
+                <h2>Interactive Prompt Generator Controls</h2>
+                <button class="button secondary" style="margin-bottom: 20px;" onclick="resetGenerator()">Reset All Selections (New Change 2)</button>
 
                 <div class="form-group">
                     <h3>1. Persona/Role (P)</h3>
@@ -243,30 +313,74 @@
                         <option value="Format the data provided into a concise, three-column markdown table.">Format data into a table</option>
                     </select>
                 </div>
-
+                
+                <!-- Advanced Tone/Style Selector (New Feature 5) -->
                 <div class="form-group">
-                    <h3>3. Context & Constraints (C)</h3>
-                    <label><input type="checkbox" name="constraint" value="Strictly adhere to (Indian) Tax Law and recent amendments." onchange="generatePrompt()"> <span>Strictly adhere to (Indian) Tax Law</span></label>
-                    <label><input type="checkbox" name="constraint" value="Limit the entire response to a maximum of 300 words." onchange="generatePrompt()"> <span>Limit response to 300 words</span></label>
-                    <label><input type="checkbox" name="constraint" value="Explain the concepts simply (using a metaphor or analogy like Lego or a cake recipe)." onchange="generatePrompt()"> <span>Explain the concepts simply</span></label>
-                    <label><input type="checkbox" name="constraint" value="Use a formal, advisory, and strictly neutral tone." onchange="generatePrompt()"> <span>Use a formal, advisory tone</span></label>
+                    <h3>3. Advanced Tone/Style (O/C)</h3>
+                    <fieldset>
+                        <legend>Select Output Style/Format</legend>
+                        <label><input type="radio" name="tone" value="Ensure the response is presented in an Advisory/Consultative tone." onchange="generatePrompt()"> <span>Advisory Tone</span></label>
+                        <label><input type="radio" name="tone" value="Use technical jargon and detailed terms suitable for experts." onchange="generatePrompt()"> <span>Technical/Jargon Heavy</span></label>
+                        <label><input type="radio" name="tone" value="Present the result as an Executive Summary, highlighting only 3 key takeaways." onchange="generatePrompt()"> <span>Executive Summary Style</span></label>
+                        <label><input type="radio" name="tone" value="Format the entire response as a structured Q&A session." onchange="generatePrompt()"> <span>Q&A Format</span></label>
+                    </fieldset>
+                </div>
+
+
+                <!-- Context & Constraints Grouping (New Change 3) -->
+                <div class="form-group">
+                    <h3>4. Context & Constraints (C)</h3>
+                    
+                    <fieldset>
+                        <legend>A. Legal & Compliance</legend>
+                        <label><input type="checkbox" name="constraint" value="Strictly adhere to (Indian) Tax Law and recent amendments." data-group="legal" onchange="generatePrompt()"> <span>Strictly adhere to (Indian) Tax Law</span></label>
+                        <label><input type="checkbox" name="constraint" value="Reference the relevant section numbers for all statutory citations." data-group="legal" onchange="generatePrompt()"> <span>Cite Statute Sections</span></label>
+                    </fieldset>
+
+                    <fieldset>
+                        <legend>B. Formatting & Length</legend>
+                        <label><input type="checkbox" name="constraint" value="Limit the entire response to a maximum of 300 words." data-group="formatting" onchange="generatePrompt()"> <span>Limit response to 300 words</span></label>
+                        <label><input type="checkbox" name="constraint" value="The final output must be 5 clear bullet points." data-group="formatting" onchange="generatePrompt()"> <span>5 Clear Bullet Points</span></label>
+                    </fieldset>
+
                 </div>
 
                 <div class="form-group">
-                    <h3>4. Optional Input/Data (E)</h3>
+                    <h3>5. External URL (E) (New Feature 4)</h3>
+                    <input type="text" id="externalUrl" placeholder="Paste single URL (e.g., news article, notification) for AI to analyze." onkeyup="generatePrompt()">
+                </div>
+                
+                <div class="form-group">
+                    <h3>6. Optional Input/Data (E)</h3>
                     <textarea id="inputData" placeholder="Paste relevant data, brief, or example text here (e.g., a client email, a regulation text, a data list)." onkeyup="generatePrompt()"></textarea>
                 </div>
+
             </div>
         </div>
         
+        <!-- Output Area -->
         <hr style="margin-top: 30px;">
         <h2>Generated Draft Prompt</h2>
+        
+        <!-- Selection Summary (New Change 4) -->
+        <div id="selectionSummary">Please make selections above to see a quick summary.</div>
+
         <textarea id="promptOutput" readonly placeholder="Your custom prompt will appear here as you make selections."></textarea>
         
-        <div class="output-controls">
-            <button class="button" onclick="copyPrompt()">Copy Prompt</button>
+        <div class="output-footer">
+            <!-- Character Counter (New Feature 2) -->
+            <div id="charCount">0 characters</div>
+            <div class="output-controls">
+                <button class="button" onclick="copyPrompt()">Copy Prompt</button>
+                <!-- Download Button (New Feature 3) -->
+                <button class="button secondary" onclick="downloadPrompt()">Download (.txt)</button>
+            </div>
         </div>
         
+        <!-- Toast Notification Container (New Change 1) -->
+        <div id="toastMessage"></div>
+
+        <!-- Disclaimer and Attribution Section -->
         <div class="footer-section">
             <div class="disclaimer">
                 <h3>Disclaimer</h3>
@@ -288,80 +402,278 @@
 
     <script>
         /*
-        * Embedded JavaScript for Dynamic Prompt Generation
+        * Embedded JavaScript for Dynamic Prompt Generation and Utility Features
         */
+        const outputElement = document.getElementById('promptOutput');
+        const inputDataElement = document.getElementById('inputData');
+        const objectiveSelect = document.getElementById('objective');
+        const presetSelector = document.getElementById('presetSelector');
+
+        // --- Core Prompt Generation Logic ---
         function generatePrompt() {
             let promptParts = [];
-            let finalPrompt = "";
-
+            let summaryParts = [];
+            let inputPlaceholderText = "Paste relevant data, brief, or example text here...";
+            
             // 1. Persona (P)
             const personaRadio = document.querySelector('input[name="persona"]:checked');
             if (personaRadio) {
                 promptParts.push(personaRadio.value);
+                summaryParts.push(`P: ${personaRadio.nextElementSibling.textContent}`);
             }
 
             // 2. Objective (O)
-            const objectiveSelect = document.getElementById('objective');
             if (objectiveSelect.value) {
+                const objectiveText = objectiveSelect.options[objectiveSelect.selectedIndex].text;
                 promptParts.push("Your core task is to: " + objectiveSelect.value);
+                summaryParts.push(`O: ${objectiveText}`);
+                
+                // New Change 5: Context-Sensitive Placeholder
+                if (objectiveText.includes("data") || objectiveText.includes("table")) {
+                    inputPlaceholderText = "Since your objective is formatting data, paste raw, comma-separated data or a structured list of items here.";
+                } else if (objectiveText.includes("Summarize")) {
+                    inputPlaceholderText = "Paste the document or long text you need the AI to summarize.";
+                }
+            }
+            inputDataElement.placeholder = inputPlaceholderText;
+
+            // 3. Advanced Tone/Style (C) (New Feature 5)
+            const toneRadio = document.querySelector('input[name="tone"]:checked');
+            if (toneRadio) {
+                promptParts.push(toneRadio.value);
+                summaryParts.push(`Style: ${toneRadio.nextElementSibling.textContent}`);
             }
 
-            // 3. Context & Constraints (C)
+            // 4. Context & Constraints (C)
             const constraints = document.querySelectorAll('input[name="constraint"]:checked');
             if (constraints.length > 0) {
                 let constraintList = "Constraints and style rules:\n";
                 constraints.forEach(checkbox => {
-                    constraintList += "- " + checkbox.value + "\n";
+                    constraintList += `- ${checkbox.value}\n`;
                 });
                 promptParts.push(constraintList.trim());
+                summaryParts.push(`C: ${constraints.length} Rule(s)`);
+            }
+            
+            // 5. External URL (E) (New Feature 4)
+            const externalUrl = document.getElementById('externalUrl').value.trim();
+            if (externalUrl.length > 0) {
+                promptParts.push(`\n[EXTERNAL INPUT]\nAnalyze the content found at this URL: ${externalUrl}`);
+                summaryParts.push(`URL: Included`);
             }
 
-            // 4. Input Data (E)
-            const inputData = document.getElementById('inputData').value.trim();
+            // 6. Input Data (E)
+            const inputData = inputDataElement.value.trim();
             if (inputData.length > 0) {
                 // Use a standard delimiter to cleanly separate the instructions from the data
                 promptParts.push("The following is the specific input, brief, or data you must operate on. Do not start the task until you have processed this:\n---\n" + inputData + "\n---");
+                summaryParts.push(`E: Data Included`);
             }
             
             // Assemble the final prompt, separated by double newlines for clarity
-            finalPrompt = promptParts.join("\n\n");
+            const finalPrompt = promptParts.join("\n\n");
 
-            // Update the output textarea
-            const outputElement = document.getElementById('promptOutput');
+            // Update Output
             outputElement.value = finalPrompt || "Your custom prompt will appear here as you make selections.";
+            
+            // New Feature 2: Character Counter
+            document.getElementById('charCount').textContent = `${outputElement.value.length} characters`;
+
+            // New Change 4: Real-Time Selection Summary
+            const summaryText = summaryParts.length > 0 ? summaryParts.join(" | ") : "Please make selections above to see a quick summary.";
+            document.getElementById('selectionSummary').textContent = summaryText;
         }
 
+        // --- Utility Functions ---
+
+        // New Change 1: Custom Toast Notification
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(function(){ 
+                toast.classList.remove('show'); 
+            }, 3000);
+        }
+
+        // Copy Prompt
         function copyPrompt() {
-            const outputElement = document.getElementById('promptOutput');
-            
-            // Check if there is content to copy
             if (outputElement.value && outputElement.value !== "Your custom prompt will appear here as you make selections.") {
                 outputElement.select();
-                outputElement.setSelectionRange(0, 99999); // For mobile devices
-
-                // Use the modern clipboard API if available
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(outputElement.value)
-                        .then(() => {
-                            alert("Prompt copied to clipboard successfully!");
-                        })
-                        .catch(err => {
-                            // Fallback to execCommand if clipboard API fails
-                            document.execCommand('copy');
-                            alert("Prompt copied to clipboard! (via fallback)");
-                        });
-                } else {
-                    // Fallback for older browsers
+                outputElement.setSelectionRange(0, 99999); 
+                
+                try {
                     document.execCommand('copy');
-                    alert("Prompt copied to clipboard! (via fallback)");
+                    showToast("Prompt Copied to Clipboard!");
+                } catch (err) {
+                    // Fallback alert if execCommand fails
+                    showToast("Could not copy prompt.");
                 }
+
             } else {
-                alert("Please make some selections to generate a prompt first.");
+                showToast("Please generate a prompt before copying.");
+            }
+        }
+        
+        // New Change 2: Reset All Button
+        function resetGenerator() {
+            // Reset radio buttons
+            document.querySelectorAll('input[type="radio"]:checked').forEach(radio => radio.checked = false);
+            // Reset checkboxes
+            document.querySelectorAll('input[type="checkbox"]:checked').forEach(checkbox => checkbox.checked = false);
+            // Reset select dropdown
+            objectiveSelect.value = "";
+            // Reset text areas/inputs
+            inputDataElement.value = "";
+            document.getElementById('externalUrl').value = "";
+            
+            showToast("Generator settings cleared.");
+            generatePrompt(); // Regenerate empty prompt
+        }
+        
+        // New Feature 3: Download Prompt
+        function downloadPrompt() {
+            const promptContent = outputElement.value;
+            if (!promptContent || promptContent === "Your custom prompt will appear here as you make selections.") {
+                showToast("Nothing to download yet!");
+                return;
+            }
+
+            const filename = 'consultant_prompt_' + new Date().toISOString().slice(0, 10) + '.txt';
+            const blob = new Blob([promptContent], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showToast(`Downloaded: ${filename}`);
+        }
+
+        // --- Preset Library Functions (New Feature 1) ---
+        
+        // Load presets from localStorage
+        function getPresets() {
+            try {
+                const presetsJson = localStorage.getItem('trb_prompt_presets');
+                return presetsJson ? JSON.parse(presetsJson) : {};
+            } catch (e) {
+                console.error("Could not load presets from localStorage:", e);
+                return {};
             }
         }
 
-        // Initialize the prompt on load
-        window.onload = generatePrompt; 
+        // Save presets to localStorage
+        function savePresets(presets) {
+            try {
+                localStorage.setItem('trb_prompt_presets', JSON.stringify(presets));
+            } catch (e) {
+                console.error("Could not save presets to localStorage:", e);
+            }
+        }
+
+        // Render the preset selector dropdown
+        function renderPresetSelector() {
+            const presets = getPresets();
+            presetSelector.innerHTML = '<option value="">-- Load a Saved Prompt Preset --</option>';
+
+            for (const key in presets) {
+                const option = document.createElement('option');
+                option.value = key;
+                option.textContent = key;
+                presetSelector.appendChild(option);
+            }
+        }
+        
+        // Save the current prompt configuration
+        function savePreset() {
+            const presetName = prompt("Enter a name for this prompt preset (e.g., 'Tax Summary Request'):");
+            if (!presetName) return;
+
+            const presets = getPresets();
+            const config = {
+                persona: document.querySelector('input[name="persona"]:checked')?.value || '',
+                objective: objectiveSelect.value || '',
+                tone: document.querySelector('input[name="tone"]:checked')?.value || '',
+                constraints: Array.from(document.querySelectorAll('input[name="constraint"]:checked')).map(cb => cb.value),
+                externalUrl: document.getElementById('externalUrl').value,
+                inputData: inputDataElement.value,
+            };
+
+            presets[presetName] = config;
+            savePresets(presets);
+            renderPresetSelector();
+            showToast(`Preset "${presetName}" saved!`);
+        }
+        
+        // Load a selected preset
+        function loadPreset(name) {
+            if (!name) return;
+
+            const presets = getPresets();
+            const config = presets[name];
+
+            if (config) {
+                // Clear all current selections first
+                resetGenerator(); 
+                
+                // Apply configuration for Persona
+                const personaInput = document.querySelector(`input[name="persona"][value="${config.persona}"]`);
+                if (personaInput) {
+                    personaInput.checked = true;
+                }
+                
+                // Apply configuration for Objective
+                objectiveSelect.value = config.objective;
+                
+                // Apply configuration for Tone
+                const toneInput = document.querySelector(`input[name="tone"][value="${config.tone}"]`);
+                if (toneInput) {
+                    toneInput.checked = true;
+                }
+
+                // Apply constraints
+                config.constraints.forEach(value => {
+                    const cb = document.querySelector(`input[name="constraint"][value="${value}"]`);
+                    if (cb) cb.checked = true;
+                });
+
+                document.getElementById('externalUrl').value = config.externalUrl;
+                inputDataElement.value = config.inputData;
+
+                generatePrompt();
+                showToast(`Preset "${name}" loaded successfully.`);
+            }
+        }
+        
+        // Delete the currently selected preset
+        function deletePreset() {
+            const name = presetSelector.value;
+            if (!name) {
+                showToast("Please select a preset to delete.");
+                return;
+            }
+
+            if (confirm(`Are you sure you want to delete the preset "${name}"?`)) {
+                const presets = getPresets();
+                delete presets[name];
+                savePresets(presets);
+                renderPresetSelector();
+                resetGenerator();
+                showToast(`Preset "${name}" deleted.`);
+            }
+        }
+
+
+        // Initialization on Load
+        window.onload = function() {
+            renderPresetSelector(); // Load and display saved presets
+            generatePrompt(); // Generate initial empty prompt
+        }; 
     </script>
 </body>
 </html>
